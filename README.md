@@ -15,8 +15,8 @@ Details of user
 ## Todo
 
 - [ ] Edit person once created
-    - Edit images
-    - Edit faction
-    - Edit name
-    - Edit notes
-    - Remove links
+    - [ ] Edit images
+    - [x] Edit faction
+    - [x] Edit name
+    - [ ] Edit notes
+    - [ ] Remove links
