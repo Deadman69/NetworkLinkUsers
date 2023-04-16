@@ -88,8 +88,9 @@
 
             <div id="details" style="display: none;">
                 <h4>Details</h4>
-                <form method="POST">
+                <form method="POST" action="{{ route('person.update') }}">
                     @csrf
+                    <input type="hidden" name="personIDDetails" id="personIDDetails">
                     <div class="form-group">
                         <label for="personNameDetails">Nom de la personne</label>
                         <input type="text" class="form-control" name="personNameDetails" id="personNameDetails" placeholder="John Doe" required>
@@ -103,8 +104,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="notesDetails">Notes</label>
-                        <textarea class="form-control" name="notesDetails" id="notesDetails" rows="3"></textarea>
+                        <label for="newNoteDetails">Nouvelle note</label>
+                        <textarea class="form-control" name="newNoteDetails" id="newNoteDetails" rows="3"></textarea>
                     </div>
                     <div class="form-group mb-2" id="picturesDetails" style="display: none;">
                         <label>Photos</label>
@@ -120,6 +121,14 @@
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
+                    </div>
+                    <div class="form-group" id="notesListDetails" style="display: none;">
+                        <label>Notes</label>
+                        <span id="listNotesDetails"></span>
+                    </div>
+                    <div class="form-group" id="relationsDetails" style="display: none;">
+                        <label>Relations</label>
+                        <ul id="relationsListDetails"></ul>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Mettre à jour</button>
                 </form>
@@ -242,18 +251,33 @@
                         showMenu("details");
                         console.log(data);
 
-                        var notesValue = "";
-                        data.details.notes.forEach(element => {
-                            if(notesValue != "") {
-                                notesValue += "\n";
-                            }
-                            notesValue += element.text;
-                        });
+                        if(data.details.notes.length > 0) {
+                            $('#notesListDetails').show();
+                            $('#listNotesDetails').empty();
+                            data.details.notes.forEach((element, index) => {
+                                $('#listNotesDetails').append("<p>" + element.text + "</p>");
+                                if(data.details.notes.length > 1 && index != (data.details.notes.length-1)) {
+                                    $('#listNotesDetails').append("<hr>");
+                                }
+                            });
+                        } else {
+                            $('#notesListDetails').hide();
+                        }
+
+                        if(data.relations.length > 0) {
+                            $('#relationsDetails').show();
+                            $('#relationsListDetails').empty();
+                            data.relations.forEach((element, index) => {
+                                $('#relationsListDetails').append("<li>" + element.person.name + " -> " + element.related_person.name + " : " + element.relation_type.label + "</li>");
+                            });
+                        } else {
+                            $('#relationsDetails').hide();
+                        }
 
                         $('#details-btn').removeClass("disabled");
+                        $('#personIDDetails').val(data.details.id);
                         $('#personNameDetails').val(data.details.name);
                         $('#factionDetails option[value="' + data.details.faction_id + '"]').prop('selected', true);
-                        $('#notesDetails').val(notesValue);
                         if(data.details.images.length > 0) {
                             $('#picturesDetails').show();
 

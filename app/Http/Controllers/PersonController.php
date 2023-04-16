@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePersonRequest;
 use App\Http\Requests\CreateRelationRequest;
 use App\Http\Requests\LoadPersonRequest;
+use App\Http\Requests\UpdatePersonRequest;
 use App\Models\Image;
 use App\Models\Note;
 use App\Models\Person;
@@ -77,9 +78,33 @@ class PersonController extends Controller
     public function load(LoadPersonRequest $request) {
         try {
             $details = Person::with(['faction', 'notes', 'images'])->where("id", $request->get('id'))->first();
-            return json_encode(["success" => true, "details" => $details]);
+            $relations = Relation::with(['person', 'relatedPerson', 'relationType'])->where('person_id', $details->id)->orWhere('related_person_id', $details->id)->get();
+            return json_encode(["success" => true, "details" => $details, "relations" => $relations]);
         } catch(Exception $e) {
             return abort(500);
+        }
+    }
+
+    public function update(UpdatePersonRequest $request) {
+        try {
+            $person = Person::where('id', $request->get('personIDDetails'))->first();
+            if($person == null) {
+                throw new Exception();
+            }
+
+            $person->name = $request->get('personNameDetails');
+            $person->faction_id = $request->get('factionDetails');
+            if($request->get('newNoteDetails') != null) {
+                $newNote = new Note();
+                $newNote->person_id = $person->id;
+                $newNote->text = $request->get('newNoteDetails');
+                $newNote->save();
+            }
+            $person->save();
+
+            return json_encode(["success" => true]);
+        } catch(Exception $e) {
+            return json_encode(["success" => false]);
         }
     }
 }

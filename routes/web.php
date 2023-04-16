@@ -25,6 +25,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::post('/createPerson', 'PersonController@create')->name('person.create');
     Route::post('/createRelation', 'PersonController@createRelation')->name('relation.create');
     Route::post('/loadDetails', 'PersonController@load')->name('person.load');
+    Route::post('/updatePerson', 'PersonController@update')->name('person.update');
 
     Route::get('/display', 'DisplayController@display')->name("display");
 });
