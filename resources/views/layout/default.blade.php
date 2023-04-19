@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container">
-    @if(Route::currentRouteName() != "login")
+    @if(Route::currentRouteName() != "login" && Route::currentRouteName() != "register")
     @include('common.header')
     @endif
 

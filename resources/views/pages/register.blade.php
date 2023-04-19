@@ -1,5 +1,5 @@
 @extends('layout.default')
-@section('title') Login @endsection
+@section('title') Register @endsection
 
 @section('top-css')
    <style>
@@ -50,13 +50,14 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('login.post') }}">
+    <form method="POST" action="{{ route('register.post') }}">
         @csrf
-        <h1>Login</h1>
+        <h1>Register</h1>
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
-        <a href="{{ route('register') }}">Register</a>
+        <input type="password" name="password_confirmation" placeholder="Password confirmation">
+        <input type="submit" value="Register">
+        <a href="{{ route('login') }}">Login</a>
         @if ($errors->has('password'))
             <span class="text-danger text-left">{{ $errors->first('password') }}</span>
         @endif
