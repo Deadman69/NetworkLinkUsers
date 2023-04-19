@@ -20,3 +20,4 @@ Details of user
     - [x] Edit name
     - [ ] Edit notes
     - [ ] Remove links
+- [ ] Check if user is admin on route level (toggleUser)
