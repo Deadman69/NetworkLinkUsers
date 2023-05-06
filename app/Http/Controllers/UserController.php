@@ -79,7 +79,7 @@ class UserController extends Controller
         }
 
         $user = User::where('id', $userID)->first();
-        $user->validated = $user->validated == 0 ? 1 : 0;
+        $user->is_admin = $user->is_admin == 0 ? 1 : 0;
         $user->save();
     }
 }
