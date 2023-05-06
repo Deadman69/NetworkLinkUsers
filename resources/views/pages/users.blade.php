@@ -24,7 +24,8 @@
                     <td>
                         @if($user->id != \App\Models\User::DEFAULT_USER)
                         <button type="button" class="btn btn-success">Activer/Désactiver</button>
-                        <!--<button type="button" class="btn btn-danger">Supprimer</button>-->
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                        <button type="button" class="btn btn-info">Admin</button>
                         @endif
                     </td>
                 </tr>
@@ -45,6 +46,8 @@
                 var url = "{{ route('users.delete') }}/" + userID;
                 if($(this).hasClass('btn-success')) {
                     url = "{{ route('users.toggle') }}/" + userID;
+                } else if($(this).hasClass('btn-info')) {
+                    url = "{{ route('users.admin') }}/" + userID;
                 }
 
                 $.ajax({

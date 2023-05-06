@@ -50,11 +50,34 @@ class UserController extends Controller
     }
 
     public function listUsers() {
-        $users = User::all();
+        $users = User::where('id', '!=', 1)->get();
         return view('pages.users', compact('users'));
     }
 
     public function toggleUser($userID) {
+        if($userID == Auth::id()) {
+            return abort(401);
+        }
+
+        $user = User::where('id', $userID)->first();
+        $user->validated = $user->validated == 0 ? 1 : 0;
+        $user->save();
+    }
+
+    public function userDelete($userID) {
+        if($userID == Auth::id()) {
+            return abort(401);
+        }
+
+        $user = User::where('id', $userID)->first();
+        $user->delete();
+    }
+
+    public function toggleAdmin($userID) {
+        if($userID == Auth::id()) {
+            return abort(401);
+        }
+
         $user = User::where('id', $userID)->first();
         $user->validated = $user->validated == 0 ? 1 : 0;
         $user->save();

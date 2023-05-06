@@ -9,7 +9,7 @@
 
 @section('content')
     <div class="row">
-        <h1 class="mb-4">AES Encryption/Decryption</h1>
+        <h1 class="mb-4">AES-CBC Encryption/Decryption</h1>
         <form id="aes-form">
             <div class="mb-3">
                 <label for="inputText" class="form-label">Input Text</label>
