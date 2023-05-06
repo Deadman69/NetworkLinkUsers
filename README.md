@@ -19,5 +19,7 @@ Details of user
     - [x] Edit faction
     - [x] Edit name
     - [ ] Edit notes
-    - [ ] Remove links
-- [ ] Check if user is admin on route level (toggleUser)
+        - [x] Remove notes
+    - [ ] Remove links between users
+- [x] Check if user is admin on route level (toggleUser)
+    - Toggle admin in user list
