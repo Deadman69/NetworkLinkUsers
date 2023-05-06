@@ -29,15 +29,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/createRelation', 'PersonController@createRelation')->name('relation.create');
         Route::post('/loadDetails', 'PersonController@load')->name('person.load');
         Route::post('/updatePerson', 'PersonController@update')->name('person.update');
+        Route::post('/deleteNote', 'PersonController@deleteNote')->name('person.deleteNote');
 
         Route::get('/display', 'DisplayController@display')->name("display");
 
-        Route::get('/users', 'UserController@listUsers')->name('users');
-        Route::get('/usersToggle/{userID?}', 'UserController@toggleUser')->name('users.toggle');
-        Route::get('/usersDelete/{userID?}', 'UserController@userDelete')->name('users.delete');
-        Route::get('/usersAdmin/{userID?}', 'UserController@toggleAdmin')->name('users.admin');
-
         Route::view('/chiffrement', 'pages.chiffrement')->name("chiffrement");
+
+        Route::group(['middleware' => ['is_admin']], function() {
+            Route::get('/users', 'UserController@listUsers')->name('users');
+            Route::get('/usersToggle/{userID?}', 'UserController@toggleUser')->name('users.toggle');
+            Route::get('/usersDelete/{userID?}', 'UserController@userDelete')->name('users.delete');
+            Route::get('/usersAdmin/{userID?}', 'UserController@toggleAdmin')->name('users.admin');
+        });
     });
 
 });

@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="notesListDetails" style="display: none;">
-                        <label>Notes</label>
+                        <label>Notes (click it to delete)</label>
                         <span id="listNotesDetails"></span>
                     </div>
                     <div class="form-group" id="relationsDetails" style="display: none;">
@@ -191,6 +191,23 @@
                 showMenu("details");
             });
 
+            $(document).on("click", "#listNotesDetails > p", function(e) {
+                const p = $(this);
+                let id = p.attr('noteID');
+                if(confirm("Do you want to delete this note ?\n\n" + p.text())) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('person.deleteNote') }}",
+                        data: {"id": id},
+                        success: function(data) {
+                            p.remove();
+                        },
+                        error: function(xhr) {
+                            alert('An error occurred while deleting the note');
+                        }
+                    });
+                }
+            });
 
             // create an array with nodes
             var nodes = new vis.DataSet([
@@ -255,7 +272,7 @@
                             $('#notesListDetails').show();
                             $('#listNotesDetails').empty();
                             data.details.notes.forEach((element, index) => {
-                                $('#listNotesDetails').append("<p>" + element.text + "</p>");
+                                $('#listNotesDetails').append("<p noteID='" + element.id + "'>" + element.text + "</p>");
                                 if(data.details.notes.length > 1 && index != (data.details.notes.length-1)) {
                                     $('#listNotesDetails').append("<hr>");
                                 }

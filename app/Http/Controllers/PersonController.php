@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePersonRequest;
 use App\Http\Requests\CreateRelationRequest;
+use App\Http\Requests\DeletePersonNoteRequest;
 use App\Http\Requests\LoadPersonRequest;
 use App\Http\Requests\UpdatePersonRequest;
 use App\Models\Image;
@@ -101,6 +102,21 @@ class PersonController extends Controller
                 $newNote->save();
             }
             $person->save();
+
+            return json_encode(["success" => true]);
+        } catch(Exception $e) {
+            return json_encode(["success" => false]);
+        }
+    }
+
+    public function deleteNote(DeletePersonNoteRequest $request) {
+        try {
+            $note = Note::where('id', $request->get('id'))->first();
+            if($note == null) {
+                throw new Exception();
+            }
+
+            $note->delete();
 
             return json_encode(["success" => true]);
         } catch(Exception $e) {
