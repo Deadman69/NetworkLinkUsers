@@ -35,5 +35,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/users', 'UserController@listUsers')->name('users');
         Route::get('/usersToggle/{userID?}', 'UserController@toggleUser')->name('users.toggle');
         Route::get('/usersDelete/{userID?}', 'UserController@deleteUser')->name('users.delete');
+
+        Route::view('/chiffrement', 'pages.chiffrement')->name("chiffrement");
     });
+
 });
