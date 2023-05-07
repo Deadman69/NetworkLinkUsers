@@ -213,7 +213,7 @@
             });
             $(document).on("click", "#relationsListDetails > li", function(e) {
                 const li = $(this);
-                let id = li.attr('noteID');
+                let id = li.attr('relationID');
                 if(confirm("Do you want to delete this relation ?\n\n" + li.text())) {
                     $.ajax({
                         type: 'POST',
@@ -305,7 +305,7 @@
                             $('#relationsDetails').show();
                             $('#relationsListDetails').empty();
                             data.relations.forEach((element, index) => {
-                                $('#relationsListDetails').append("<li>" + element.person.name + " -> " + element.related_person.name + " : " + element.relation_type.label + "</li>");
+                                $('#relationsListDetails').append("<li relationID='" + element.id + "'>" + element.person.name + " -> " + element.related_person.name + " : " + element.relation_type.label + "</li>");
                             });
                         } else {
                             $('#relationsDetails').hide();
