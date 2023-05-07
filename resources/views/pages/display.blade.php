@@ -29,7 +29,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="personName">Nom de la personne</label>
-                        <input type="text" class="form-control" name="personName" id="personName" placeholder="John Doe" required>
+                        <input type="text" class="form-control" name="personName" id="personName" placeholder="John Doe" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="faction">Faction</label>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label for="notes">Notes</label>
-                        <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+                        <textarea class="form-control" name="notes" id="notes" rows="3" autocomplete="off"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="picture">Photo de la personne</label>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="form-group">
                         <label for="newNoteDetails">Nouvelle note</label>
-                        <textarea class="form-control" name="newNoteDetails" id="newNoteDetails" rows="3"></textarea>
+                        <textarea class="form-control" name="newNoteDetails" id="newNoteDetails" rows="3" autocomplete="off"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="picture">Photo supplémentaire</label>
