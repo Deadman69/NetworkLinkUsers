@@ -103,6 +103,30 @@ class PersonController extends Controller
             }
             $person->save();
 
+            if($request->file('picture') != null) {
+                $images = $request->file('picture');
+
+                if (is_array($images)) {
+                    foreach ($images as $image) {
+                        $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                        $image->move(public_path('images'), $filename);
+
+                        $imageDB = new Image();
+                        $imageDB->person_id = $person->id;
+                        $imageDB->url = $filename;
+                        $imageDB->save();
+                    }
+                } else {
+                    $filename = uniqid() . '.' . $images->getClientOriginalExtension();
+                    $images->move(public_path('images'), $filename);
+
+                    $imageDB = new Image();
+                    $imageDB->person_id = $person->id;
+                    $imageDB->url = $filename;
+                    $imageDB->save();
+                }
+            }
+
             return json_encode(["success" => true]);
         } catch(Exception $e) {
             return json_encode(["success" => false]);
@@ -112,6 +136,21 @@ class PersonController extends Controller
     public function deleteNote(DeletePersonNoteRequest $request) {
         try {
             $note = Note::where('id', $request->get('id'))->first();
+            if($note == null) {
+                throw new Exception();
+            }
+
+            $note->delete();
+
+            return json_encode(["success" => true]);
+        } catch(Exception $e) {
+            return json_encode(["success" => false]);
+        }
+    }
+
+    public function deleteRelation(DeletePersonNoteRequest $request) {
+        try {
+            $note = Relation::where('id', $request->get('id'))->first();
             if($note == null) {
                 throw new Exception();
             }

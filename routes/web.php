@@ -30,6 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/loadDetails', 'PersonController@load')->name('person.load');
         Route::post('/updatePerson', 'PersonController@update')->name('person.update');
         Route::post('/deleteNote', 'PersonController@deleteNote')->name('person.deleteNote');
+        Route::post('/deleteRelation', 'PersonController@deleteRelation')->name('person.deleteRelation');
 
         Route::get('/display', 'DisplayController@display')->name("display");
 

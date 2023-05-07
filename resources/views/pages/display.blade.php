@@ -44,9 +44,8 @@
                         <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="picture">Photos de la personne</label>
-                        <small>Une seule pour le moment</small>
-                        <input type="file" class="form-control-file" name="picture" id="picture" multiple accept="image/png, image/jpeg, image/jpg">
+                        <label for="picture">Photo de la personne</label>
+                        <input type="file" class="form-control-file" name="picture" id="picture" accept="image/png, image/jpeg, image/jpg">
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
                     <button type="reset" class="btn btn-secondary mt-2">Annuler</button>
@@ -107,6 +106,10 @@
                         <label for="newNoteDetails">Nouvelle note</label>
                         <textarea class="form-control" name="newNoteDetails" id="newNoteDetails" rows="3"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="picture">Photo supplémentaire</label>
+                        <input type="file" class="form-control-file" name="picture" id="picture" accept="image/png, image/jpeg, image/jpg">
+                    </div>
                     <div class="form-group mb-2" id="picturesDetails" style="display: none;">
                         <label>Photos</label>
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -127,7 +130,7 @@
                         <span id="listNotesDetails"></span>
                     </div>
                     <div class="form-group" id="relationsDetails" style="display: none;">
-                        <label>Relations</label>
+                        <label>Relations (click it to delete)</label>
                         <ul id="relationsListDetails"></ul>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Mettre à jour</button>
@@ -201,6 +204,23 @@
                         data: {"id": id},
                         success: function(data) {
                             p.remove();
+                        },
+                        error: function(xhr) {
+                            alert('An error occurred while deleting the note');
+                        }
+                    });
+                }
+            });
+            $(document).on("click", "#relationsListDetails > li", function(e) {
+                const li = $(this);
+                let id = li.attr('noteID');
+                if(confirm("Do you want to delete this relation ?\n\n" + li.text())) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('person.deleteRelation') }}",
+                        data: {"id": id},
+                        success: function(data) {
+                            li.remove();
                         },
                         error: function(xhr) {
                             alert('An error occurred while deleting the note');
